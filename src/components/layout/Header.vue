@@ -20,9 +20,9 @@
  			<li><a href="">Register</a></li> -->
 
 	 		<li class="titre"><router-link to="/"><h1>BK WALLET</h1></router-link></li>
-	 		<li class="items" v-if="logged"><router-link to="/register"><h3>Register</h3></router-link></li>
-	 		<li class="items" v-if="logged"><router-link to="/login"><h3>Login</h3></router-link></li>
-	 		<!-- <li class="items" v-if="loggedIn"><router-link to="{name: 'logout' }"><h3>Log out</h3></router-link></li> -->
+	 		<li class="items" v-if="!logged"><router-link to="/register"><h3>Register</h3></router-link></li>
+	 		<li class="items" v-if="!logged"><router-link to="/login"><h3>Login</h3></router-link></li>
+	 		<li class="items" v-if="logged"><router-link to="{name: 'logout' }"><h3>Log out</h3></router-link></li>
  		</ul>
  		<router-view></router-view>
 	</div> 	
@@ -39,6 +39,7 @@
 
 		computed: {
 			logged(){
+				console.log(this.$store.getters.loggedIn);
 				return this.$store.getters.loggedIn;
 			}
 		}
@@ -86,6 +87,10 @@
 	a:hover{
 		text-decoration: none !important;
 		color: #181E3D !important;
+	}
+
+	h1,h3{
+		font-family: cursive;
 	}
 
 </style>

@@ -5,6 +5,7 @@ import routes from './routes'
 import BootstrapVue from 'bootstrap-vue'
 import VueSession from 'vue-session'
 import Vuex from 'vuex'
+import QrCode from '@xkeshi/vue-qrcode'
 
 import {store} from './components/store/store'
 
@@ -17,6 +18,7 @@ Vue.use(VueRouter);
 Vue.use(BootstrapVue);
 Vue.use(VueSession);
 Vue.use(Vuex); 
+Vue.component(QrCode.name, QrCode);
 
 Vue.config.productionTip = false
 

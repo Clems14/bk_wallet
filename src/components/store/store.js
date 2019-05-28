@@ -9,7 +9,7 @@ Vue.use(VueAxios, Axios);
 
 export const store = new Vuex.Store({
 	state: {
-		adressToken: null,
+		adressToken: localStorage.getItem('adress_token') || null,
 		loginToken: localStorage.getItem('login_token') || null,
 		loginEmail: localStorage.getItem('email') || null
 	},
@@ -18,6 +18,10 @@ export const store = new Vuex.Store({
 		loggedIn(state){
 			return state.loginToken  !== null;
 		},
+
+		tokenQrCode(state){
+			return state.loginToken;
+		}
 	},
 
 	mutations: {
