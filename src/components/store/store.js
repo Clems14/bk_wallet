@@ -41,7 +41,7 @@ export const store = new Vuex.Store({
 		getBalance(context){
 			// return new Promise((resolve,reject) => {
 				Axios.post('http://18.136.224.43:8080/v1/users/getBalance', {
-					email : "fournier@gmail.com",
+					email : loginEmail,
 					token : loginToken,
 				})
 					.then((response) => {

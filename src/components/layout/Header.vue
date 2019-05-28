@@ -22,6 +22,9 @@
 	 		<li class="titre"><router-link to="/"><h1>BK WALLET</h1></router-link></li>
 	 		<li class="items" v-if="!logged"><router-link to="/register"><h3>Register</h3></router-link></li>
 	 		<li class="items" v-if="!logged"><router-link to="/login"><h3>Login</h3></router-link></li>
+	 		<li class="items" v-if="logged"><router-link to="{name: 'logout' }"><h3>Your Account</h3></router-link></li>
+	 		<li class="items" v-if="logged"><router-link to="{name: 'logout' }"><h3>Withdraw</h3></router-link></li>
+	 		<li class="items" v-if="logged"><router-link to="{name: 'logout' }"><h3>Settings</h3></router-link></li>
 	 		<li class="items" v-if="logged"><router-link to="{name: 'logout' }"><h3>Log out</h3></router-link></li>
  		</ul>
  		<router-view></router-view>
@@ -39,7 +42,7 @@
 
 		computed: {
 			logged(){
-				console.log(this.$store.getters.loggedIn);
+				// console.log(this.$store.getters.loggedIn);
 				return this.$store.getters.loggedIn;
 			}
 		}
