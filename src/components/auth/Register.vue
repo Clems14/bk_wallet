@@ -87,16 +87,24 @@
 		        show: true
 		      }
 		    },
-		    computed: {
-		      	addToWallet(){
-					let newUser = {
+		    methods: {
+		      	addToWallet: function(e){
+
+		      			this.$store.dispatch('retrieveAdress', {
+				      		fullname: this.form.fullname,
+							mobileNumber: this.form.mobileNumber,
+							email: this.form.email,
+							password: this.form.password,
+							repeatPassword: this.form.repeatPassword
+				      	})
+					/*let newUser = {
 						fullname: this.form.fullname,
 						mobileNumber: this.form.mobileNumber,
 						email: this.form.email,
 						password: this.form.password,
 						repeatPassword: this.form.repeatPassword
 					};
-					console.log(newUser);
+					console.log(newUser);*/
 					
 				/*	axios.post('http://18.136.224.43:3001/v1/register',newUser)
 						.then((response) => {

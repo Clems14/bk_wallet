@@ -76,34 +76,16 @@
 		    methods: {
 		      connect: function(e){
 
-				      	this.$store.dispatch('retrieveToken', {
-				      		email: this.form.email,
-				      		password: this.form.password
-				      	})
-						/*let newLog = {
-							email : this.form.email,
-							password : this.form.password
-						};
-						console.log(newLog);*/
+				    this.$store.dispatch('retrieveToken', {
+				      	email: this.form.email,
+				      	password: this.form.password
+				    })
 
-						/*axios.post('http://18.136.224.43:3001/v1/login',newLog)
-							.then((response) => {
-								console.log(response);
-								if(response.data.status === 'fail'){
-									alert('Authentification fail');
-									window.location.href='./sign_in.html'
-								}else if(response.data.status === "0"){
-									alert("User doesn't exist");
-									window.location.href='./sign_in.html'
-								}else{
-									var token = response.data.detail.token;
-									console.log(token);
-									alert("Sign in success");
-									window.location.href='./bkwallet.html'
-								}
-							})*/
-					}
-		    	}
+				    .then(response => {
+				    	this.$router.push({ name: 'home'});
+				    })
+				}
+		    }
 	};
 </script>
 
