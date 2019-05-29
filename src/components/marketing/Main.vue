@@ -18,9 +18,21 @@
 				<template slot="table-caption"><h4>Your account</h4></template>
 			</b-table>
 			<br>
-			<qrcode :value="getQrCode" :options="{ size: 100 }"></qrcode>
+			<div>
+				<div>
+					<qrcode :value="getQrCode" :options="{ size: 100 }"></qrcode>
+					<qrcode :value="getQrCode1" :options="{ size: 100 }"></qrcode>
+				</div>
+				<qrcode :value="getQrCode2" :options="{ size: 100 }"></qrcode>
+				<qrcode :value="getQrCode3" :options="{ size: 100 }"></qrcode>
+				<qrcode :value="getQrCode4" :options="{ size: 100 }"></qrcode>
+				<qrcode :value="getQrCode5" :options="{ size: 100 }"></qrcode>
+			</div>
 		</div>
+
+			
 		<br><br><br>
+
 	</div>
 </template>
 <!-- 
@@ -37,23 +49,47 @@
 			}
 		},
 
-		methods: {
-
-			balance: function(e){
-
-				this.$store.dispatch('getBalance')
-
-				    .then(response => {
-				    	console.log(response);
-				    })
-			}
-		},
+		
 
 		computed: {
 			getQrCode(){
-				return this.$store.getters.tokenQrCode;
+				console.log(this.$store.getters.getBch);
+				return this.$store.getters.getBch;
+			},
+
+			getQrCode1(){
+				console.log(this.$store.getters.getBtc);
+				return this.$store.getters.getBtc;
+			},
+
+			getQrCode2(){
+				console.log(this.$store.getters.getEos);
+				return this.$store.getters.getEos;
+			},
+
+			getQrCode3(){
+				console.log(this.$store.getters.getEth);
+				return this.$store.getters.getEth;
+			},
+
+			getQrCode4(){
+				console.log(this.$store.getters.getLtc);
+				return this.$store.getters.getLtc;
+			},
+
+			getQrCode5(){
+				console.log(this.$store.getters.getXrp);
+				return this.$store.getters.getXrp;
+			},
+		},
+
+		mounted() {
+
+			balance:{
+
+				this.$store.dispatch('getBalance');
 			}
-		}
+		},
 	};
 </script>
 

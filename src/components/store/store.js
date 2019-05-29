@@ -9,9 +9,14 @@ Vue.use(VueAxios, Axios);
 
 export const store = new Vuex.Store({
 	state: {
-		adressToken: localStorage.getItem('adress_token') || null,
 		loginToken: localStorage.getItem('login_token') || null,
-		loginEmail: localStorage.getItem('email') || null
+		loginEmail: localStorage.getItem('email') || null,
+		bchAdress: localStorage.getItem('bch_token') || null,
+		btcAdress: localStorage.getItem('btc_token') || null,
+		eosAdress: localStorage.getItem('eos_token') || null,
+		ethAdress: localStorage.getItem('eth_token') || null,
+		ltcAdress: localStorage.getItem('ltc_token') || null,
+		xrpAdress: localStorage.getItem('xrp_token') || null,
 	},
 
 	getters: {
@@ -19,12 +24,43 @@ export const store = new Vuex.Store({
 			return state.loginToken  !== null;
 		},
 
-		tokenQrCode(state){
+		getToken(state){
 			return state.loginToken;
-		}
+		},
+
+		getEmail(state){
+			return state.loginEmail;
+		},
+
+		getBch(state){
+			return state.bchAdress;
+		},
+
+		getBtc(state){
+			return state.btcAdress;
+		},
+
+		getEos(state){
+			return state.eosAdress;
+		},
+
+		getEth(state){
+			return state.ethAdress;
+		},
+
+		getLtc(state){
+			return state.ltcAdress;
+		},
+
+		getXrp(state){
+			console.log(state.xrpAdress);
+			return state.xrpAdress;
+		},
 	},
 
 	mutations: {
+
+		getBalance(state, bchAdress, btcAdress, eosAdress, ethAdress, ltcAdress, xrpAdress){},
 
 		retrieveAdress(state, adressToken){
 			state.adressToken = adressToken;
@@ -33,24 +69,44 @@ export const store = new Vuex.Store({
 		retrieveToken(state, loginToken, loginEmail){
 			state.loginToken = loginToken;
 			state.loginEmail = loginEmail;
-		}
+		},
+
+		
 	},
 
 	actions: {
 
 		getBalance(context){
-			// return new Promise((resolve,reject) => {
+			return new Promise((resolve,reject) => {
 				Axios.post('http://18.136.224.43:8080/v1/users/getBalance', {
-					email : loginEmail,
-					token : loginToken,
+					email : this.getters.getEmail,
+					token : this.getters.getToken
 				})
 					.then((response) => {
 						console.log(response);
+						const bchAdress = response.data.details.balance[0].bch.address;
+						const btcAdress = response.data.details.balance[0].btc.address;
+						const eosAdress = response.data.details.balance[0].eos.memo;
+						const ethAdress = response.data.details.balance[0].eth.address;
+						const ltcAdress = response.data.details.balance[0].ltc.address;
+						const xrpAdress = response.data.details.balance[0].xrp.tag;
+
+						localStorage.setItem('bch_token', bchAdress);
+						localStorage.setItem('btc_token', btcAdress);
+						localStorage.setItem('eos_token', eosAdress);
+						localStorage.setItem('eth_token', ethAdress);
+						localStorage.setItem('ltc_token', ltcAdress);
+						localStorage.setItem('xrp_token', xrpAdress);
+
+						context.commit('getBalance', bchAdress,  btcAdress, eosAdress, ethAdress, ltcAdress, xrpAdress);
+
+						resolve(response);
 					})
 					.catch(error => {
 						console.log(error);
+						reject(response);
 					})
-			// })
+			})
 		},
 
 		retrieveToken(context, credentials){
@@ -99,9 +155,6 @@ export const store = new Vuex.Store({
 			})
 				.then((response)=> {
 					console.log(response);
-					const adressToken = response.data.addresses;
-					localStorage.setItem('adress_token',adressToken);
-					context.commit('retrieveAdress',adressToken);
 				})
 		},
 
