@@ -10,17 +10,25 @@ Vue.use(VueAxios, Axios);
 export const store = new Vuex.Store({
 	state: {
 		loginToken: localStorage.getItem('login_token') || null,
-		loginEmail: localStorage.getItem('email') || null,
+		loginEmail: localStorage.getItem('login_email') || null,
 		bchAdress: localStorage.getItem('bch_token') || null,
 		btcAdress: localStorage.getItem('btc_token') || null,
 		eosAdress: localStorage.getItem('eos_token') || null,
 		ethAdress: localStorage.getItem('eth_token') || null,
 		ltcAdress: localStorage.getItem('ltc_token') || null,
 		xrpAdress: localStorage.getItem('xrp_token') || null,
+		bchBalance: localStorage.getItem('bch_balance') || null,
+		btcBalance: localStorage.getItem('btc_balance') || null,
+		eosBalance: localStorage.getItem('eos_balance') || null,
+		ethBalance: localStorage.getItem('eth_balance') || null,
+		ltcBalance: localStorage.getItem('ltc_balance') || null,
+		xrpBalance: localStorage.getItem('xrp_balance') || null,
+		transaction: localStorage.getItem('table_transaction') || []
 	},
 
 	getters: {
 		loggedIn(state){
+			// console.log(state.loginToken);
 			return state.loginToken  !== null;
 		},
 
@@ -29,15 +37,18 @@ export const store = new Vuex.Store({
 		},
 
 		getEmail(state){
+			// console.log(state.loginEmail);
 			return state.loginEmail;
 		},
 
 		getBch(state){
 			return state.bchAdress;
+			// return "testtt";
 		},
 
 		getBtc(state){
 			return state.btcAdress;
+			// return "test";
 		},
 
 		getEos(state){
@@ -46,6 +57,7 @@ export const store = new Vuex.Store({
 
 		getEth(state){
 			return state.ethAdress;
+			// return "casse";
 		},
 
 		getLtc(state){
@@ -53,14 +65,43 @@ export const store = new Vuex.Store({
 		},
 
 		getXrp(state){
-			console.log(state.xrpAdress);
 			return state.xrpAdress;
 		},
+
+		getbchBalance(state){
+			return state.bchBalance;
+		},
+
+		getbtcBalance(state){
+			return state.btcBalance;
+		},
+
+		geteosBalance(state){
+			return state.eosBalance;
+		},
+
+		getethBalance(state){
+			return state.ethBalance;
+		},
+
+		getltcBalance(state){
+			return state.ltcBalance;
+		},
+
+		getxrpBalance(state){
+			return state.xrpBalance;
+		},
+
+		getTable(state){
+			return state.transaction;
+		}
 	},
 
 	mutations: {
 
 		getBalance(state, bchAdress, btcAdress, eosAdress, ethAdress, ltcAdress, xrpAdress){},
+
+		getHistory(state, transaction){},
 
 		retrieveAdress(state, adressToken){
 			state.adressToken = adressToken;
@@ -76,11 +117,33 @@ export const store = new Vuex.Store({
 
 	actions: {
 
+		getHistory(context, credentials){
+			return new Promise((resolve,reject) => {
+				Axios.post('http://18.136.224.43:8080/v1/transaction/tx_history', {
+					email: this.getters.getEmail,
+					token: this.getters.getToken,
+					type: credentials.type,
+				})
+					.then((response) =>{
+						console.log(response);
+
+						const transaction = response.data.details.transactions;
+
+						resolve(response.data.details.transactions);
+					})
+
+					.catch((error) => {
+						console.log(error);
+					})
+			})
+		},
+
 		getBalance(context){
 			return new Promise((resolve,reject) => {
 				Axios.post('http://18.136.224.43:8080/v1/users/getBalance', {
 					email : this.getters.getEmail,
-					token : this.getters.getToken
+					token : this.getters.getToken,
+					
 				})
 					.then((response) => {
 						console.log(response);
@@ -90,6 +153,12 @@ export const store = new Vuex.Store({
 						const ethAdress = response.data.details.balance[0].eth.address;
 						const ltcAdress = response.data.details.balance[0].ltc.address;
 						const xrpAdress = response.data.details.balance[0].xrp.tag;
+						const bchBalance = response.data.details.balance[0].bch.balance;
+						const btcBalance = response.data.details.balance[0].btc.balance;
+						const eosBalance = response.data.details.balance[0].eos.balance;
+						const ethBalance = response.data.details.balance[0].eth.balance;
+						const ltcBalance = response.data.details.balance[0].ltc.balance;
+						const xrpBalance = response.data.details.balance[0].xrp.balance;
 
 						localStorage.setItem('bch_token', bchAdress);
 						localStorage.setItem('btc_token', btcAdress);
@@ -97,14 +166,20 @@ export const store = new Vuex.Store({
 						localStorage.setItem('eth_token', ethAdress);
 						localStorage.setItem('ltc_token', ltcAdress);
 						localStorage.setItem('xrp_token', xrpAdress);
+						localStorage.setItem('bch_balance', bchBalance);
+						localStorage.setItem('btc_balance', btcBalance);
+						localStorage.setItem('eos_balance', eosBalance);
+						localStorage.setItem('eth_balance', ethBalance);
+						localStorage.setItem('ltc_balance', ltcBalance);
+						localStorage.setItem('xrp_balance', xrpBalance);
 
-						context.commit('getBalance', bchAdress,  btcAdress, eosAdress, ethAdress, ltcAdress, xrpAdress);
+						context.commit('getBalance', bchAdress,  btcAdress, eosAdress, ethAdress, ltcAdress, xrpAdress, bchBalance, btcBalance, eosBalance, ethBalance, ltcBalance, xrpBalance);
 
 						resolve(response);
 					})
 					.catch(error => {
 						console.log(error);
-						reject(response);
+						reject(error);
 					})
 			})
 		},
@@ -121,22 +196,25 @@ export const store = new Vuex.Store({
 									console.log(response);
 									const loginToken = response.data.detail.token;
 									const loginEmail = credentials.email;
-									localStorage.setItem('login_token',loginToken);
+									console.log(loginEmail);
 									localStorage.setItem('login_email', loginEmail);
+									localStorage.setItem('login_token',loginToken);
+									console.log('login_email');
 									context.commit('retrieveToken',loginToken, loginEmail);
-									resolve(response);
-									/*if(response.data.status === 'fail'){
+									if(response.data.status === 'fail'){
 										alert('Authentification fail');
-										window.location.href='./sign_in.html'
+										window.location.href='/login'
 									}else if(response.data.status === "0"){
 										alert("User doesn't exist");
-										window.location.href='./sign_in.html'
+										window.location.href='/register'
 									}else{
-										var token = response.data.detail.token;
-										console.log(token);
+										
 										alert("Sign in success");
-										window.location.href='./bkwallet.html'
-									}*/
+										
+										window.location.href='/'
+									}
+									resolve(response);
+									
 								})
 								.catch((error) =>{
 									console.log(error);
@@ -155,37 +233,70 @@ export const store = new Vuex.Store({
 			})
 				.then((response)=> {
 					console.log(response);
+
+					if(response.data.status === 'fail'){
+						alert('Fail for register');
+						window.location.href='/register'
+					}else{
+						alert("Sign up success");
+						window.location.href='/login'
+					}
+				})
+
+				.catch((error) => {
+					console.log(error);
 				})
 		},
 
-		destroyToken(context){
-			if(context.getters.loggedIn){
-				return new Promise((resolve, reject)=> {
-					Axios.post('/logout')
-						.then((response) => {
-							localStorage.removeItem('login_token');
-							context.commit('destroyToken');
-							resolve(response);
-							/*if(response.data.status === 'fail'){
-								alert('Authentification fail');
-								window.location.href='./sign_in.html'
-							}else if(response.data.status === "0"){
-								alert("User doesn't exist");
-								window.location.href='./sign_in.html'
-							}else{
-								var token = response.data.detail.token;
-								console.log(token);
-								alert("Sign in success");
-								window.location.href='./bkwallet.html'
-							}*/
-							})
-							.catch((error) =>{
-								localStorage.removeItem('login_token');
-								context.commit('destroyToken');
-								reject(error);
-							})
+		doWithdraw(context,credentials){
+			return new Promise((resolve, reject) => {
+				Axios.post('http://18.136.224.43:8080/v1/users/withDraw', {
+					email: credentials.email,
+					tokenName: credentials.option,
+					token: this.getters.getToken,
+					to: credentials.to,
+					value: credentials.value,
+					message: credentials.message,
 				})
-			}
+
+								.then((response) => {
+									console.log( credentials.email + credentials.option + this.getters.getToken + credentials.to + credentials.value + credentials.message);
+									console.log(response);
+									resolve(response);
+								})
+								.catch((error) =>{
+									console.log(error);
+									reject(error);
+								})
+			})
+		},
+
+		doTransfer(context, credentials){
+			return new Promise((resolve, reject) => {
+
+					/*console.log(this.getters.getEmail)
+					console.log(credentials.to)
+					console.log(credentials.select)
+					console.log(credentials.value)
+					console.log(this.getters.getToken)*/
+				Axios.post('http://18.136.224.43:8080/v1/users/transfer' , {
+					from: this.getters.getEmail,
+					to: credentials.to,
+					tokenName: credentials.select,
+					value: credentials.value,
+					token: this.getters.getToken,
+				})
+
+					.then((response) => {
+						console.log(response);
+						resolve(response);
+					})
+
+					.catch((error) => {
+						console.log(error);
+						reject(error);
+					})
+			})
 		}
 	}
 }); 

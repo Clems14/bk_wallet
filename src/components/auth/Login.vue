@@ -1,28 +1,4 @@
 <template>
-	<!-- <div>
-		<b-container class="formulaire">
-			<b-form id="signin_form" @submit="connect" action="#" method="post" v-on:submit.prevent="connect">
-				<br>
-				<b-row>
-					<b-col>
-						<b-form-input type="email" name="email" class="form-control" v-model="Log.email" id="email" placeholder="Email"></b-form-input>
-					</b-col>
-				</b-row>
-				<br>
-				<b-row>
-					<b-col>
-						<b-form-input type="password" name="password" class="form-control" v-model="Log.password" id="password" placeholder="Password"></b-form-input>
-					</b-col>
-				</b-row>
-				<br>
-				<div>
-					<div class="d-flex justify-content-center">
-						<b-form-input class="btn btn-primary decal justify-content-center" type="submit" value="Sign in"></b-form-input>
-					</div>
-				</div>
-			</b-form>
-		</b-container>
-	</div> -->
 	<div>
 		<br>
 		<br>

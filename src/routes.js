@@ -8,6 +8,7 @@ const routes = [
 	{ path: '/', name: 'home', component: Main},
 	{ path: '/register', name: 'register', component: Register},
 	{ path: '/login', name: 'login', component: Login},
+	{ path: '/#account', name: 'account', component : Main},
 	{ path: '/logout', name: 'logout', component: Logout},
 ];
 

@@ -97,32 +97,6 @@
 							password: this.form.password,
 							repeatPassword: this.form.repeatPassword
 				      	})
-					/*let newUser = {
-						fullname: this.form.fullname,
-						mobileNumber: this.form.mobileNumber,
-						email: this.form.email,
-						password: this.form.password,
-						repeatPassword: this.form.repeatPassword
-					};
-					console.log(newUser);*/
-					
-				/*	axios.post('http://18.136.224.43:3001/v1/register',newUser)
-						.then((response) => {
-							console.log(response);
-							if(response.data.status === 'fail'){
-								alert('fail');
-								window.location.href='./sign_up.html'
-							}else{
-								var adress = response.data.addresses;
-								console.log(adress);
-								alert("Sign up success");
-								window.location.href='./sign_in.html'
-							}
-						})
-						.catch((error) => {
-							//console.log(error);
-							alert("error" + error.data.message);
-						})*/
 					}
 		}
 	};

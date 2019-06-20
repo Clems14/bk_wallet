@@ -22,9 +22,10 @@
 	 		<li class="titre"><router-link to="/"><h1>BK WALLET</h1></router-link></li>
 	 		<li class="items" v-if="!logged"><router-link to="/register"><h3>Register</h3></router-link></li>
 	 		<li class="items" v-if="!logged"><router-link to="/login"><h3>Login</h3></router-link></li>
-	 		<li class="items" v-if="logged"><router-link to="{name: 'logout' }"><h3>Your Account</h3></router-link></li>
-	 		<li class="items" v-if="logged"><router-link to="{name: 'logout' }"><h3>Withdraw</h3></router-link></li>
-	 		<li class="items" v-if="logged"><router-link to="{name: 'logout' }"><h3>Settings</h3></router-link></li>
+	 		<li class="items" v-if="logged"><a href="/#account"><h3>Your Account</h3></a></li>
+	 		<li class="items" v-if="logged"><a href="/#history"><h3>History</h3></a></li>
+	 		<li class="items" v-if="logged"><a href="/#withdraw"><h3>Withdraw</h3></a></li>
+	 		<!-- <li class="items" v-if="logged"><router-link to=""><h3>Settings</h3></router-link></li> -->
 	 		<li class="items" v-if="logged"><router-link to="{name: 'logout' }"><h3>Log out</h3></router-link></li>
  		</ul>
  		<router-view></router-view>
@@ -42,6 +43,8 @@
 
 		computed: {
 			logged(){
+
+				// console.log(this.$store.getters.getEmail);
 				// console.log(this.$store.getters.loggedIn);
 				return this.$store.getters.loggedIn;
 			}
@@ -51,13 +54,15 @@
 
 <style>
 	
+	body{
+		background-color: #0667D0 !important;
+	}
+
 	#app {
 		font-family: Helvetica;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
-		background-color: #0667D0;
 		color: #2c3e50;
-		height: 100vh;
 	}
 
 	.flex-center{
