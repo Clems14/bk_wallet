@@ -60,7 +60,7 @@
 				</template>
 			</b-table>
 			<b-modal id="bv-modal-example" hide-footer>
-				<template v-if="!testCopy">
+				<template v-if="testCopy">
 				    <div class="d-block text-center">
 				    	<input type="text" :value="getQrCode3" id="copy">
 				    </div>
@@ -114,7 +114,7 @@
 					</b-form-group>
 				</form>
 			</b-modal>
-			<br>
+			<br><!-- 
 			<b-container>
 				<b-row class="top">
 					<b-col>
@@ -147,7 +147,7 @@
 					</b-col>
 				</b-row>
 			</b-container>
-				
+				 -->
 		</div>
 
 		<br><br><br>
@@ -321,7 +321,7 @@
 
 			clipboard(){
 				if(this.items[0].NAME == 'btc'){
-					console.log(click().NAME);
+					// console.log(click().NAME);
 					let copytext = document.getElementById("copy");
 					console.log(copytext);
 					copytext.select();
@@ -330,7 +330,7 @@
 
 				// console.log(this.$store.getters.getBtc);
 				
-				// console.log(this.items);
+				console.log(this.items);
 			},
 
 			testCopy(){

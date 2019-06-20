@@ -119,7 +119,7 @@ export const store = new Vuex.Store({
 
 		getHistory(context, credentials){
 			return new Promise((resolve,reject) => {
-				Axios.post('http://18.136.224.43:8080/v1/transaction/tx_history', {
+				Axios.post('http://206.189.90.188:8080/v1/transaction/tx_history', {
 					email: this.getters.getEmail,
 					token: this.getters.getToken,
 					type: credentials.type,
@@ -140,7 +140,7 @@ export const store = new Vuex.Store({
 
 		getBalance(context){
 			return new Promise((resolve,reject) => {
-				Axios.post('http://18.136.224.43:8080/v1/users/getBalance', {
+				Axios.post('http://206.189.90.188:8080/v1/users/getBalance', {
 					email : this.getters.getEmail,
 					token : this.getters.getToken,
 					
@@ -188,7 +188,7 @@ export const store = new Vuex.Store({
 
 
 			return new Promise((resolve, reject) => {
-				Axios.post('http://18.136.224.43:8080/v1/login', {
+				Axios.post('http://206.189.90.188:8080/v1/login', {
 					email: credentials.email,
 					password: credentials.password,
 				})
@@ -224,7 +224,7 @@ export const store = new Vuex.Store({
 		},
 
 		retrieveAdress(context,credentials){			
-			Axios.post('http://18.136.224.43:8080/v1/register', {
+			Axios.post('http://206.189.90.188:8080/v1/register', {
 				fullname: credentials.fullname,
 				mobilNumber: credentials.mobilNumber,
 				email: credentials.email,
@@ -250,7 +250,7 @@ export const store = new Vuex.Store({
 
 		doWithdraw(context,credentials){
 			return new Promise((resolve, reject) => {
-				Axios.post('http://18.136.224.43:8080/v1/users/withDraw', {
+				Axios.post('http://206.189.90.188:8080/v1/users/withDraw', {
 					email: credentials.email,
 					tokenName: credentials.option,
 					token: this.getters.getToken,
@@ -279,7 +279,7 @@ export const store = new Vuex.Store({
 					console.log(credentials.select)
 					console.log(credentials.value)
 					console.log(this.getters.getToken)*/
-				Axios.post('http://18.136.224.43:8080/v1/users/transfer' , {
+				Axios.post('http://206.189.90.188:8080/v1/users/transfer' , {
 					from: this.getters.getEmail,
 					to: credentials.to,
 					tokenName: credentials.select,
